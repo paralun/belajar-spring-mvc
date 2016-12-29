@@ -30,7 +30,8 @@ public class BarangDaoImpl implements BarangDao {
     public Barang findBarang(int id) {
         return (Barang) sessionFactory.getCurrentSession()
                 .createQuery("from Barang where id = :id")
-                .setParameter("id", id);
+                .setParameter("id", id)
+                .uniqueResult();
     }
 
     @Override
