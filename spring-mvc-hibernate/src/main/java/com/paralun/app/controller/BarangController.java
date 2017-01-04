@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class BarangController {
@@ -48,27 +49,27 @@ public class BarangController {
     
     @RequestMapping(value = "/barang/add", method = RequestMethod.POST)
     public String saveOrUpdate(@ModelAttribute("barang") @Valid Barang barang, 
-            BindingResult result, Model model) {
+            BindingResult result, final RedirectAttributes ra) {
         if(result.hasErrors()) {
             return "barang-form";
         }else {
             service.saveOrUpdate(barang);
-            model.addAttribute("css", "success");
-            model.addAttribute("msg", "Barang added successfully");
+            ra.addFlashAttribute("css", "success");
+            ra.addFlashAttribute("msg", "Barang added successfully");
             return "redirect:/barang/list";
         }
     }
     
     @RequestMapping(value = "/barang/delete/{id}")
-    public String deleteBarang(@PathVariable("id") int id, Model model) {
+    public String deleteBarang(@PathVariable("id") int id, final RedirectAttributes ra) {
         Barang barang = service.findBarang(id);
         if(barang == null) {
-            model.addAttribute("css", "danger");
-            model.addAttribute("msq", "Barang not found");
+            ra.addFlashAttribute("css", "danger");
+            ra.addFlashAttribute("msq", "Barang not found");
         }else {
             service.delete(barang);
-            model.addAttribute("css", "success");
-            model.addAttribute("msg", "Barang berhasil di hapus");
+            ra.addFlashAttribute("css", "success");
+            ra.addFlashAttribute("msg", "Barang berhasil di hapus");
         }
         
         return "redirect:/barang/list";
