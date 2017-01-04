@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
@@ -34,11 +35,11 @@ public class Barang implements Serializable {
     private String kategori;
     
     @Column(name = "harga_brg")
-    @Min(value = 0)
+    @Min(0) @NotNull
     private Long harga;
     
     @Column(name = "stok_brg")
-    @Min(value = 1)
+    @Min(1) @NotNull
     private Integer stok;
 
     public Barang() {
