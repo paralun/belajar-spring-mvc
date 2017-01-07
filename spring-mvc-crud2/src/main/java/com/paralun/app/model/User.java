@@ -119,4 +119,8 @@ public class User {
     public void setSkill(List<String> skill) {
         this.skill = skill;
     }
+    
+    public boolean isNew() {
+        return (this.id == null);
+    }
 }
