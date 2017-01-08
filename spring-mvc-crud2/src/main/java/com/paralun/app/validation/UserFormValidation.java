@@ -5,7 +5,9 @@
 package com.paralun.app.validation;
 
 import com.paralun.app.model.User;
+import com.paralun.app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -15,7 +17,11 @@ import org.springframework.validation.Validator;
 public class UserFormValidation implements Validator {
 
     @Autowired
+    @Qualifier("emailValidation")
     private EmailValidation emailValidation;
+    
+    @Autowired
+    private UserService userService;
 
     @Override
     public boolean supports(Class<?> type) {

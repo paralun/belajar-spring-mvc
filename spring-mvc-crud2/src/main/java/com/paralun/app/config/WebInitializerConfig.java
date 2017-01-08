@@ -2,6 +2,7 @@
  * Copyright (c) 2017 | James Kusmambang
  * Source : https://github.com/paralun
  */
+
 package com.paralun.app.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -22,5 +23,4 @@ public class WebInitializerConfig extends AbstractAnnotationConfigDispatcherServ
     protected String[] getServletMappings() {
         return new String[]{"/"};
     }
-    
 }

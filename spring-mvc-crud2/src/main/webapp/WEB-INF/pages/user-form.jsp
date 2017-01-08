@@ -11,11 +11,13 @@
         <link href="${pageContext.request.contextPath}/resources/css/bootstrap-theme.min.css" rel="stylesheet" />
     </head>
     <body>
+        <spring:url var="save" value="/user/add" />
         <div class="container">
+            <br />
             <div class="panel panel-primary">
                 <div class="panel-heading"><span class="lead">User Registration Form</span></div>
                 <div class="panel-body">
-                    <form:form method="post" modelAttribute="userForm" action="${pageContext.request.contextPath}/users">
+                    <form:form class="form-horizontal" method="post" modelAttribute="userForm" action="${save}">
                         <form:hidden path="id" />
                         
                         <spring:bind path="name">
@@ -60,7 +62,7 @@
                         
                         <spring:bind path="address">
                             <div class="form-group ${status.error ? 'has-error' : ''}">
-                                <label class="col-sm-2 control-label">Confirm Password</label>
+                                <label class="col-sm-2 control-label">Address</label>
                                 <div class="col-sm-10">
                                     <form:textarea path="address" rows="5" class="form-control " id="address" placeholder="Address" />
                                     <form:errors path="address" class="control-label" />

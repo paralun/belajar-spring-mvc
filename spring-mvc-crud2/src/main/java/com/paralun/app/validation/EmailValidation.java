@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("emailValidation")
 public class EmailValidation {
 
     private Pattern pattern;

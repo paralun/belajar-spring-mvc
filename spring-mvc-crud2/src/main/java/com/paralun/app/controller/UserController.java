@@ -17,44 +17,44 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class UserController {
 
     @Autowired
-    private UserFormValidation validation;
+    UserFormValidation userFormValidation;
 
     @Autowired
     private UserService service;
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
-        binder.setValidator(validation);
+        binder.setValidator(userFormValidation);
     }
 
-    @GetMapping("/")
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model) {
-        return "redirect:/users";
+        return "redirect:/user/list";
     }
 
-    @GetMapping("/users")
+    @RequestMapping(value = "/user/list", method = RequestMethod.GET)
     public String findAllUser(Model model) {
         model.addAttribute("users", service.findAll());
         return "list-user";
     }
 
-    @PostMapping(value = "/users")
-    public String saveOrUpdate(
-            @ModelAttribute("userForm") @Validated User user, Model model,
-            BindingResult result, final RedirectAttributes ra) {
+    @RequestMapping(value = "/user/add", method = RequestMethod.POST)
+    public String saveOrUpdate(@ModelAttribute("userForm") @Validated User user,
+            BindingResult result, Model model, final RedirectAttributes ra) {
 
         if (result.hasErrors()) {
+            populateDefaultModel(model);
             return "user-form";
         } else {
             ra.addFlashAttribute("css", "success");
@@ -65,32 +65,34 @@ public class UserController {
             }
 
             service.saveOrUpdate(user);
-            return "redirect:/users";
+            return "redirect:/user/list";
         }
     }
 
-    @PostMapping(value = "/users/delete/{id}")
+    @RequestMapping(value = "/user/delete/{id}", method = RequestMethod.GET)
     public String deleteUser(@PathVariable("id") Integer id, final RedirectAttributes ra) {
         service.delete(id);
         ra.addFlashAttribute("css", "success");
         ra.addFlashAttribute("msg", "User is deleted!");
-        return "redirect:/users";
+        return "redirect:/user/list";
     }
 
-    @GetMapping(value = "/users/add")
+    @RequestMapping(value = "/user/add", method = RequestMethod.GET)
     public String addUser(Model model) {
         model.addAttribute("userForm", new User());
+        populateDefaultModel(model);
         return "user-form";
     }
 
-    @GetMapping(value = "/users/edit/{id}")
+    @RequestMapping(value = "/user/edit/{id}", method = RequestMethod.GET)
     public String editUser(@PathVariable("id") Integer id, Model model) {
         User user = service.findById(id);
         model.addAttribute("userForm", user);
+        populateDefaultModel(model);
         return "user-form";
     }
 
-    @GetMapping(value = "/users/{id}")
+    @RequestMapping(value = "/user/find/{id}", method = RequestMethod.GET)
     public String showUser(@PathVariable("id") Integer id, Model model) {
         User user = service.findById(id);
         if (user == null) {
@@ -102,7 +104,6 @@ public class UserController {
         return "detail-user";
     }
 
-    @ModelAttribute
     private void populateDefaultModel(Model model) {
         List<String> frameworksList = new ArrayList<>();
         frameworksList.add("Spring MVC");

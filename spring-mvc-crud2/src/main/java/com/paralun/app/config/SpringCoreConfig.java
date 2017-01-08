@@ -18,8 +18,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan(basePackages = "com.paralun.app")
-@PropertySource(value = "classpath:jdbc.proprties")
+@ComponentScan({"com.paralun.app.dao", "com.paralun.app.service", "com.paralun.app.validation"})
+@PropertySource(value = "classpath:database/jdbc.properties")
 public class SpringCoreConfig {
     
     @Autowired

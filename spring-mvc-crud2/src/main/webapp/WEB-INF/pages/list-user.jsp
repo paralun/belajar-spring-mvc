@@ -11,6 +11,7 @@
     <body>
         
         <div class="container">
+            <br />
             <div class="panel panel-default">
                 <div class="panel-heading"><span class="lead">List of Users</span></div>
                 <c:if test="not empty msg">
@@ -41,13 +42,13 @@
                                 <td>
                                     <c:forEach var="framework" items="${user.framework}" varStatus="loop">
                                         ${framework}
-                                        <c:if test="${not loop.test}">,</c:if>
+                                        <c:if test="${not loop.last}">,</c:if>
                                     </c:forEach>
                                 </td>
                                 <td>
-                                    <a class="btn btn-info" href="${pageContext.request.contextPath}/users/${user.id}">Detail</a>
-                                    <a class="btn btn-success" href="${pageContext.request.contextPath}/users/edit/${user.id}">Edit</a>
-                                    <a class="btn btn-danger" href="${pageContext.request.contextPath}/users/delete/${user.id}">Delete</a>
+                                    <a class="btn btn-info" href="<c:url value='/user/find/${user.id}' />">Detail</a>
+                                    <a class="btn btn-success" href="<c:url value='/user/edit/${user.id}' />">Edit</a>
+                                    <a class="btn btn-danger" href="<c:url value='/user/delete/${user.id}' />">Delete</a>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -55,7 +56,7 @@
                 </table>
             </div>
             <div class="well">
-                <a href="${pageContext.request.contextPath}/users/add">Add New User</a>
+                <a href="<c:url value='/user/add' />">Add New User</a>
             </div>
         </div>
         
